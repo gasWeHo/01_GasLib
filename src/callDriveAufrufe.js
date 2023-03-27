@@ -75,3 +75,8 @@ function old6_drAufruf() {
   else
     Logger.log("File erzeugen war NICHT erfolgreich, Fehlercode = " + i);
 }
+
+function old7_drAufruf() {
+  let i = drGetFileCount("Meine Ablage/prog/gas/01_GasLib/Pedro/Hans");
+  Logger.log("i = " + i);
+}

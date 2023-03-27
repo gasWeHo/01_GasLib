@@ -1,10 +1,6 @@
 function drAufruf() {
-  let i = drCreateShortCut("Meine Ablage/prog/gas/02_Drive/Pedro", "Meine Ablage/prog/input", "scPedro", "");
-  if (i == 1){
-    Logger.log("Shortcut erzeugen war erfolgreich");
-  }
-  else
-    Logger.log("File erzeugen war NICHT erfolgreich, Fehlercode = " + i);
+  let i = drGetFileCount("Meine Ablage/prog/gas/01_GasLib/Pedro/Hans");
+  Logger.log("i = " + i);
 }
 
 function drCreateShortCut(folNameFrom="", folNameTo="", shortcutName="", fileNameFrom="") {
@@ -281,3 +277,24 @@ function drCopyFol(fromFolder, toFolder) {
     drCopyFol(folder, newFolder)
   }
 }
+
+// zählt die Anzahl der Dateien in einem Verzeichnis
+function drGetFileCount(folNameFrom=""){
+  if (folNameFrom == "")
+    return (-1);              // fehlende Funktionsparameter
+  let iDrS = drInfo(folNameFrom);
+  if (!iDrS.folEx)
+    return (-2);              // Abbruch Folder existiert nicht
+  let files = iDrS.folder.getFiles();
+  let count = 0;
+  while (files.hasNext()) {
+    files.next();
+    count++; 
+  }
+  return count;
+}
+
+
+
+
+
