@@ -1,4 +1,4 @@
-function drSheets() {
+function shAufruf() {
   let range = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getRange("A1:A");
   let find = 25;
   let i = 1 + shGetRowUsingfindIndex(find, range);
@@ -7,7 +7,6 @@ function drSheets() {
   else
     Logger.log(`Der Wert ${find} wurde nicht gefunden!`);
 }
-
 
 // gibt den ersten Index in einem Array zurück, sofern term im range gefunden wird, anderfalls -1 
 function shGetRowUsingfindIndex(term, range){

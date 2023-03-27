@@ -1,4 +1,4 @@
-function old1_drSheets() {
+function old1_shAufruf() {
   let range = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getRange("A1:A");
   let find = 25;
   let i = 1 + shGetRowUsingfindIndex(find, range);
