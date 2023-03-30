@@ -1,8 +1,10 @@
-let prop = PropertiesService.getScriptProperties();
+let reProp = PropertiesService.getScriptProperties();
 
 function onLoad() {
-  if (checkAblageRechnung())
-    prop.setProperty('ablageOK', 'true');
+  if (reCheckAblage())
+    reProp.setProperty('reAblageOK', 'true');
   else
-    prop.setProperty('ablageOK', 'false');
+    reProp.setProperty('reAblageOK', 'false');
 }
+
+

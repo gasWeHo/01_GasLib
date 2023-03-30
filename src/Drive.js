@@ -19,7 +19,7 @@ function drCreateShortCut(folNameFrom="", folNameTo="", shortcutName="", fileNam
   if (!fileNameFrom)
     idSource = iDrS.folId;    // wenn keine File-Angabe ist die Folder-ID die Quelle
   else
-    idSource = iDrS.fileId;   // andernfalls fie File-ID
+    idSource = iDrS.fileId;   // andernfalls die File-ID
   const resource = {
     shortcutDetails: { targetId: idSource },
     title: shortcutName,
