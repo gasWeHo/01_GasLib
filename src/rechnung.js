@@ -24,14 +24,22 @@ function reCreate() {
       SpreadsheetApp.getUi().alert("Aktive Rechnungszeile erst komplett ausfüllen!");
       return;
     }
+    let sEin = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nameEin);
+    let sAdr = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nameAdr);
+    // Ermitteln der Zeilen-Nr des Rechnungsempfängers im Sheet Adressen
+    let adrRow = 2 + shGetRowUsingfindIndex(sActive.getRange(aRow, 3).getValue(), sAdr.getRange(2, 2, sAdr.getLastRow(), 1));
+    if (adrRow <= 1){   // der ausgewählte Rechnungsempfänger wurde nicht gefunden
+      SpreadsheetApp.getUi().alert("Der Rechnungsempfänger wurde im Sheet Adressen nicht gefunden, es wird keine Rechnung erzeugt!");
+      return;
+    }
     let reDatum = Utilities.formatDate(sActive.getRange(aRow, 7).getValue(), Session.getScriptTimeZone(), "dd.MM.yyyy");
-    let reName = sActive.getRange(aRow, 2).getValue().toString() + '_' + sActive.getRange(aRow, 3).getValue() + 
+    let reZiel = Utilities.formatDate(sActive.getRange(aRow, 8).getValue(), Session.getScriptTimeZone(), "dd.MM.yyyy");
+    let reNr = sActive.getRange(aRow, 2).getValue().toString();
+    let reName = reNr + '_' + sActive.getRange(aRow, 3).getValue() + 
                  '_' + reDatum;
     let fileVorlage = DriveApp.getFileById(reProp.getProperty('reIdVorlage'));
     let folDocs = DriveApp.getFolderById(reProp.getProperty('reIdFolDocs'));
     let folPdf = DriveApp.getFolderById(reProp.getProperty('reIdFolPdf'));
-    let sEin = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nameEin);
-    let sAdr = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nameAdr);
     // falls das Rechnungsfile schon besteht -> in den Papierkorb
     let files = folDocs.getFilesByName(reName);
     let file;
@@ -55,27 +63,35 @@ function reCreate() {
     re.getBody().replaceText("{absNN}", sAdr.getRange(2, 8).getValue());
     re.getBody().replaceText("{absUnt}", sAdr.getRange(2, 2).getValue());
     re.getBody().replaceText("{absStrasse}", sAdr.getRange(2, 11).getValue());
-    re.getBody().replaceText("{absOrt}", sAdr.getRange(2, 10).getValue());
+    re.getBody().replaceText("{absOrt}", sAdr.getRange(2, 9).getValue() + " " + sAdr.getRange(2, 10).getValue());
+    re.getBody().replaceText("{absTel}", sAdr.getRange(2, 12).getValue());
+    re.getBody().replaceText("{absMail}", sAdr.getRange(2, 13).getValue());
+    re.getBody().replaceText("{reNr}", reNr);
+    re.getBody().replaceText("{reDat}", reDatum);
+    re.getBody().replaceText("{reZiel}", reZiel);
+    re.getBody().replaceText("{reBetreff}", sActive.getRange(aRow, 4).getValue());
+    re.getBody().replaceText("{empUnt}", sActive.getRange(aRow, 3).getValue());
+    re.getBody().replaceText("{klMwst}", (100*sEin.getRange(2, 2).getValue()).toFixed(0) + " %");
+    re.getBody().replaceText("{grMwst}", (100*sEin.getRange(3, 2).getValue()).toFixed(0) + " %");
+
+    re.getBody().replaceText("{empStrasse}", sAdr.getRange(adrRow, 11).getValue());
+    re.getBody().replaceText("{empOrt}", sAdr.getRange(adrRow, 9).getValue() + " " + sAdr.getRange(adrRow, 10).getValue());
+    re.getBody().replaceText("{kuNr}", sAdr.getRange(adrRow, 4).getValue());
+
+    re.getFooter().replaceText("{finAmt}", sAdr.getRange(2, 16).getValue());
+    re.getFooter().replaceText("{steuerNr}", sAdr.getRange(2, 17).getValue());
+    re.getFooter().replaceText("{bank}", sAdr.getRange(2, 18).getValue());
+    re.getFooter().replaceText("{iban}", sAdr.getRange(2, 19).getValue());
+    re.getFooter().replaceText("{bic}", sAdr.getRange(2, 20).getValue());
+
     
 
-
-
-
-
     re.saveAndClose();
-    Logger.log("reName = " + reName);
   }
   catch(error){
     SpreadsheetApp.getUi().alert("catch1 in reCreate = " + error);
     return;
   }
-
-
-
-
-  
-
-  Logger.log("Ende Rechnung");
 
 
 
