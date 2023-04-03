@@ -1,3 +1,11 @@
+function old1_calAufruf() {
+  let mailTo = emGetEmailAddresses("myContacts");
+  let start = new Date('March 16, 2023 14:00:00 UTC');
+  let end = new Date('March 16, 2023 15:30:00 UTC');
+  let i = calCreateEvent("Besprechungstitel", start, end, "zusätzliche Event-Beschreibung", "Raum R4.55", mailTo, true);
+  Logger.log("Returncode = " + i);
+}
+
 function old1_drAufruf() {
   //let info = drFiles("Meine Ablage/prog/gas/02_Drive", "Drive");
   //info.forEach((val) => {Logger.log(JSON.stringify(val))});
@@ -44,7 +52,7 @@ function old3_drAufruf() {
   else
     Logger.log("kopieren war NICHT erfolgreich")
 
-  i= drFileTrash("Meine Ablage/prog/input", "Drive2");
+  i = drFileTrash("Meine Ablage/prog/input", "Drive2");
   if (i == 1)
     Logger.log("löschen war erfolgreich")
   else
@@ -69,7 +77,7 @@ function old5_drAufruf() {
 
 function old6_drAufruf() {
   let i = drCreateShortCut("Meine Ablage/prog/gas/02_Drive/Pedro", "Meine Ablage/prog/input", "scPedro", "");
-  if (i == 1){
+  if (i == 1) {
     Logger.log("Shortcut erzeugen war erfolgreich");
   }
   else
@@ -80,3 +88,34 @@ function old7_drAufruf() {
   let i = drGetFileCount("Meine Ablage/prog/gas/01_GasLib/Pedro/Hans");
   Logger.log("i = " + i);
 }
+
+function old1_emAufruf() {
+  let i = emDownloadUrl("Meine Ablage/prog/gas/01_GasLib/Pedro/Hans", "Pedro_Tabelle", " ", "Werner Hofmann",
+    "werner.hofmann16@gmail.com", "Subject der Mail", "My content of these e-mail:  ", "viewer");
+  Logger.log("Returncode = " + i);
+}
+
+function old2_emAufruf() {
+  //let i = emAnhang("Meine Ablage/prog/gas/01_GasLib/Pedro/Hans", "Pedro_Tabelle", Session.getActiveUser().getEmail(),
+  //                  "werner.hofmann16@gmail.com", "Subject der Mail", "My content of these e-mail");
+  let i = emAnhang("Meine Ablage/prog/gas/01_GasLib/Pedro/Hans", "Pedro_Tabelle", "Werner Hofmann",
+    "werner.hofmann16@gmail.com", "Subject der Mail", "My content of these e-mail");
+  Logger.log("Returncode = " + i);
+}
+
+function old3_emAufruf() {
+  let mailTo = emGetEmailAddresses("myContacts");
+  if (mailTo != "")
+    MailApp.sendEmail(mailTo, "heute mein Betreff", "und hier ist der Body der e-mail");
+}
+
+function old1_shAufruf() {
+  let range = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getRange("A1:A");
+  let find = 25;
+  let i = 1 + shGetRowUsingfindIndex(find, range);
+  if (i)
+    Logger.log("i = " + i);
+  else
+    Logger.log(`Der Wert ${find} wurde nicht gefunden!`);
+}
+

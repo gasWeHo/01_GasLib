@@ -3,7 +3,7 @@ function drAufruf() {
   Logger.log("i = " + i);
 }
 
-function drCreateShortCut(folNameFrom="", folNameTo="", shortcutName="", fileNameFrom="") {
+function drCreateShortCut(folNameFrom = "", folNameTo = "", shortcutName = "", fileNameFrom = "") {
   // Shortcut erzeugen, erfordert die Drive API unter Dienste!!!
   if (folNameFrom == "" || folNameTo == "" || shortcutName == "")
     return (-1);              // fehlende Funktionsparameter
@@ -25,12 +25,12 @@ function drCreateShortCut(folNameFrom="", folNameTo="", shortcutName="", fileNam
     title: shortcutName,
     mimeType: "application/vnd.google-apps.shortcut",
   };
-  resource.parents = [{id: iDrD.folId}];
+  resource.parents = [{ id: iDrD.folId }];
   const shortcut = Drive.Files.insert(resource);
   return (1);                 // Shortcut erzeugen erfolgreich
 }
 
-function drCreateFile2(folNameTo="", fileNameTo="", mime="") {
+function drCreateFile2(folNameTo = "", fileNameTo = "", mime = "") {
   // leeres Dokument erzeugen, erfordert die Drive API unter Dienste!!!
   // einiges flexibler, da der Datei-Typ über den mime-Parameter vorgegeben wird
   if (folNameTo == "" || fileNameTo == "" || mime == "")
@@ -38,11 +38,11 @@ function drCreateFile2(folNameTo="", fileNameTo="", mime="") {
   let iDrD = drInfo(folNameTo, fileNameTo);
   if (!iDrD.folEx || iDrD.fileEx)
     return (-2);              // Abbruch Ziel-Folder existiert nicht oder Ziel-File existiert
-  Drive.Files.insert({mimeType: mime, title: fileNameTo, parents: [{id: iDrD.folId}]});
+  Drive.Files.insert({ mimeType: mime, title: fileNameTo, parents: [{ id: iDrD.folId }] });
   return (1);                 // Dokument erzeugen erfolgreich
 }
 
-function drCreateFile(folNameTo="", fileNameTo="", fileTyp="") {
+function drCreateFile(folNameTo = "", fileNameTo = "", fileTyp = "") {
   // leeres Dokument erzeugen, erfordert die standardmäßige DriveApp,  die Drive API unter Dienste ist nicht erforderlich!
   if (folNameTo == "" || fileNameTo == "" || fileTyp == "")
     return (-1);              // fehlende Funktionsparameter
@@ -51,8 +51,8 @@ function drCreateFile(folNameTo="", fileNameTo="", fileTyp="") {
     return (-2);              // Abbruch Ziel-Folder existiert nicht oder Ziel-File existiert
   let doc;
   fileTyp = fileTyp.toLowerCase();
-  switch (fileTyp){
-    case "sheets":  
+  switch (fileTyp) {
+    case "sheets":
       doc = SpreadsheetApp.create("tempFile");
       break;
     case "slides":
@@ -60,7 +60,7 @@ function drCreateFile(folNameTo="", fileNameTo="", fileTyp="") {
       break;
     case "forms":
       doc = FormApp.create("tempFile");
-      break;  
+      break;
     default:
       doc = DocumentApp.create("tempFile");
   }
@@ -71,7 +71,7 @@ function drCreateFile(folNameTo="", fileNameTo="", fileTyp="") {
   return (1);                 // Dokument erzeugen erfolgreich
 }
 
-function drPdfCreate(folNameFrom="", fileNameFrom="", folNameTo="", fileNameTo="") {
+function drPdfCreate(folNameFrom = "", fileNameFrom = "", folNameTo = "", fileNameTo = "") {
   if (folNameFrom == "" || fileNameFrom == "" || folNameTo == "" || fileNameTo == "")
     return (-1);              // fehlende Funktionsparameter
   let iDrS = drInfo(folNameFrom, fileNameFrom);
@@ -87,7 +87,7 @@ function drPdfCreate(folNameFrom="", fileNameFrom="", folNameTo="", fileNameTo="
   return (1);                 // erfolgreich PDF erzeugt
 }
 
-function drFileCopy(folNameFrom="", fileNameFrom="", folNameTo="", fileNameTo="") {
+function drFileCopy(folNameFrom = "", fileNameFrom = "", folNameTo = "", fileNameTo = "") {
   if (folNameFrom == "" || fileNameFrom == "" || folNameTo == "" || fileNameTo == "")
     return (-1);              // fehlende Funktionsparameter
   let iDrS = drInfo(folNameFrom, fileNameFrom);
@@ -102,7 +102,7 @@ function drFileCopy(folNameFrom="", fileNameFrom="", folNameTo="", fileNameTo=""
   return (1);                 // erfolgreich kopiert
 }
 
-function drFileTrash(folNameFrom="", fileNameFrom="") {
+function drFileTrash(folNameFrom = "", fileNameFrom = "") {
   if (folNameFrom == "" || fileNameFrom == "")
     return (-1);              // fehlende Funktionsparameter
   let iDrS = drInfo(folNameFrom, fileNameFrom);
@@ -114,7 +114,7 @@ function drFileTrash(folNameFrom="", fileNameFrom="") {
   return (1);                 // erfolgreich gelöscht
 }
 
-function drCopyFolder(folNameFrom="", folName="", folNameTo="") {
+function drCopyFolder(folNameFrom = "", folName = "", folNameTo = "") {
   if (folNameFrom == "" || folName == "" || folNameTo == "")
     return (-1);              // fehlende Funktionsparameter
   let iDrS = drInfo(folNameFrom + '/' + folName);
@@ -147,7 +147,7 @@ function drFiles() {
   let file;
   let parents;
   let parent;
-  let arr= [];
+  let arr = [];
   let files = DriveApp.getFiles();
   while (files.hasNext()) {
     nameFileFolder = "";
@@ -157,7 +157,7 @@ function drFiles() {
     info.fileId = file.getId();
     info.fileUrl = file.getUrl();
     parents = file.getParents();
-    while (parents.hasNext()){
+    while (parents.hasNext()) {
       parent = parents.next();
       if (nameFileFolder == "") {
         info.folderId = parent.getId();
@@ -166,11 +166,11 @@ function drFiles() {
       nameFileFolder = parent.getName() + "/" + nameFileFolder;
       parents = parent.getParents();
     }
-    nameFileFolder = nameFileFolder.substring(0, nameFileFolder.length-1);
+    nameFileFolder = nameFileFolder.substring(0, nameFileFolder.length - 1);
 
     info.folderName = nameFileFolder;
     arr.push(info);
-    info ={};
+    info = {};
   }
   return arr;
 }
@@ -186,14 +186,14 @@ function drRoot() {
   return info;
 }
 
-function drInfo(folderName="", fileName="") {
+function drInfo(folderName = "", fileName = "") {
   // Überprüft, ob Ordner und/oder File vorhanden und gibt Info dazu als JSON Objekt zurück
   let info = {};
   info.folEx = false;          // Folder Exist
   info.fileEx = false;         // File Exist
   if (folderName == "")        // Abbruch, wenn kein Folder angegeben wird
     return info;
-  let i=1;
+  let i = 1;
   let folders;
   let folder = DriveApp.getRootFolder();      // default Root-Folder
   let arr = folderName.split('/');
@@ -217,22 +217,22 @@ function drInfo(folderName="", fileName="") {
   if (fileName != "") {                       // Überprüfung Filename
     let files = folder.getFiles();
     while (files.hasNext()) {
-      let file =files.next();
-        if (fileName == file.getName()) {
-          info.fileName = file.getName();
-          info.fileId = file.getId();
-          info.fileUrl = file.getUrl();
-          info.fileTyp = file.getMimeType();
-          info.file = file;
-          info.fileEx = true;
-          break;
-        }
+      let file = files.next();
+      if (fileName == file.getName()) {
+        info.fileName = file.getName();
+        info.fileId = file.getId();
+        info.fileUrl = file.getUrl();
+        info.fileTyp = file.getMimeType();
+        info.file = file;
+        info.fileEx = true;
+        break;
+      }
     }
   }
   return info;
 }
 
-function drCreateFolder(folNameFrom="", folName="") {
+function drCreateFolder(folNameFrom = "", folName = "") {
   // legt Folder 'folName' im Folder 'folNameFrom' an, Rückgabe ist ein Fehlercode
   let iDr = drInfo(folNameFrom + '/' + folName);
   if (iDr.folEx) {
@@ -246,7 +246,7 @@ function drCreateFolder(folNameFrom="", folName="") {
   return (1);
 }
 
-function drTrashFolder(folNameFrom="", folName="") {
+function drTrashFolder(folNameFrom = "", folName = "") {
   // löscht Folder 'folName' im Folder 'folNameFrom' mit allen Dateien und Unterfoldern, Rückgabe ist ein Fehlercode, landet im Papierkorb
   let iDr = drInfo(folNameFrom);
   if (!iDr.folEx) {
@@ -279,19 +279,19 @@ function drCopyFol(fromFolder, toFolder) {
 }
 
 // zählt die Anzahl der Dateien in einem Verzeichnis
-function drGetFileCount(folNameFrom=""){
-  if (folNameFrom == "")
+function drGetFileCount(folNameFrom = "") {
+  if (folNameFrom == "")
     return (-1);              // fehlende Funktionsparameter
   let iDrS = drInfo(folNameFrom);
   if (!iDrS.folEx)
     return (-2);              // Abbruch Folder existiert nicht
-  let files = iDrS.folder.getFiles();
-  let count = 0;
-  while (files.hasNext()) {
-    files.next();
-    count++; 
-  }
-  return count;
+  let files = iDrS.folder.getFiles();
+  let count = 0;
+  while (files.hasNext()) {
+    files.next();
+    count++;
+  }
+  return count;
 }
 
 

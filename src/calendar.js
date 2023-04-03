@@ -6,18 +6,19 @@ function calAufruf() {
   Logger.log("Returncode = " + i);
 }
 
-function calCreateEvent(title, start, end, desc="", loc="", guests="", sendInvites=false) {
+function calCreateEvent(title, start, end, desc = "", loc = "", guests = "", sendInvites = false) {
   let email = Session.getEffectiveUser().getEmail();      // Mail-Adresse des Users, der das GAS-Script gerade ausführt
   let cal = CalendarApp.getCalendarsByName(email)[0];
-  if(cal != null){
-    cal.createEvent(title, start, end,{
+  if (cal != null) {
+    cal.createEvent(title, start, end, {
       description: desc,
       location: loc,
       guests: guests,
-      sendInvites: sendInvites});
+      sendInvites: sendInvites
+    });
     return (1);
   }
-  else{
+  else {
     return (-1);
   }
 }

@@ -10,14 +10,14 @@ function onLoad() {
 
 // Trigger, sobald eine Zelle in der Spreadsheet Datei geändert wurde
 function onEdit(e) {
-  try{
+  try {
     let row = e.range.getRow();
     let col = e.range.getColumn();
     let value = e.value;
     let sName = SpreadsheetApp.getActiveSheet().getName();
     reStatus(row, col, value, sName);
   }
-  catch{;}
+  catch { ; }
 }
 
 

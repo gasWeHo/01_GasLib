@@ -1,10 +1,10 @@
 // Sicherheitsabfrage
-function uiMsgBox(strAbfrage){
+function uiMsgBox(strAbfrage) {
   let ui = SpreadsheetApp.getUi();
   let result = ui.alert(
-     'Bitte bestätigen',
-     strAbfrage,
-     ui.ButtonSet.YES_NO);
+    'Bitte bestätigen',
+    strAbfrage,
+    ui.ButtonSet.YES_NO);
   // user response.
   if (result == ui.Button.YES) {
     return true;
