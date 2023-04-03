@@ -5,7 +5,7 @@ function calAufruf() {
   let i = calCreateEvent("Besprechungstitel", start, end, "zusätzliche Event-Beschreibung", "Raum R4.55", mailTo, true);
   Logger.log("Returncode = " + i);
 }
-
+// fügt im Google Kalender ein Event ein
 function calCreateEvent(title, start, end, desc = "", loc = "", guests = "", sendInvites = false) {
   let email = Session.getEffectiveUser().getEmail();      // Mail-Adresse des Users, der das GAS-Script gerade ausführt
   let cal = CalendarApp.getCalendarsByName(email)[0];
