@@ -1,4 +1,3 @@
-// Test 
 function calAufruf() {
   let mailTo = emGetEmailAddresses("myContacts");
   let start = new Date('March 16, 2023 14:00:00 UTC');
